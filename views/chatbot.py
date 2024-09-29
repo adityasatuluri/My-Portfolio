@@ -2,7 +2,6 @@ import streamlit as st
 from groq import Groq
 import datetime
 from theme import blue_dark
-from rag_llama import ragLlama
 
 
 try:
