@@ -1,0 +1,1 @@
+cd env3.10/Scripts && activate && cd ../..
