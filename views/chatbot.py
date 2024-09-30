@@ -2,11 +2,11 @@ import streamlit as st
 from groq import Groq
 import datetime
 from theme import blue_dark
-
+from rag_llama import ragLlama
 
 try:
     blue_dark()
-    st.title("Chatbot🤖")
+    st.title("Ask Cruise about me🤖!")
     #st.write("Ask the AI...")
 
     if 'chat_history' not in st.session_state:
@@ -15,14 +15,17 @@ try:
         st.session_state['latest_result'] = None
     if 'user_prompt' not in st.session_state:
         st.session_state['user_prompt'] = ""
+        st.session_state['chat_history'].insert(0, (None, "Hi Iam Cruise, How May I help you?", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
-    groq_api_key = "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"
+
+    groq_api_key = "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"
 
     if st.session_state['chat_history']:
         for question, answer, timestamp in st.session_state['chat_history'][::-1]:
             with st.container():
-                with st.chat_message("question", avatar="assets/user.png"):
-                    st.markdown(question)
+                if question!= None:
+                    with st.chat_message("question", avatar="assets/user.png"):
+                        st.markdown(question)
                 with st.chat_message("human", avatar="assets/aditya.png"):
                     st.markdown(f'<div class="r-container">{answer}</div><br>', unsafe_allow_html=True)
 
@@ -47,22 +50,21 @@ try:
         return message_content
 
     if user_prompt:
-        #response = str(ragLlama(str(user_prompt)))
-        response = parse_llama_groq(groq_api_key, user_prompt)
+        response = ragLlama(user_prompt)
+        #response = parse_llama_groq(groq_api_key, user_prompt)
         st.session_state['latest_result'] = response
-        found = False
-        for i, (question, _, _) in enumerate(st.session_state['chat_history']):
-            if question == user_prompt:
-                st.session_state['chat_history'][i] = (user_prompt, response, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                found = True
-                break
+        # found = False
+        # for i, (question, _, _) in enumerate(st.session_state['chat_history']):
+        #     if question == user_prompt:
+        #         st.session_state['chat_history'][i] = (user_prompt, response, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        #         found = True
+        #         break
 
-        if not found:
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            st.session_state['chat_history'].insert(0, (user_prompt, response, timestamp))
+        # if not found:
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        st.session_state['chat_history'].insert(0, (user_prompt, response, timestamp))
+        st.session_state['user_prompt'] = ""
         st.rerun()
-
-
 
 except Exception as e:
     st.write("Error: ", e)

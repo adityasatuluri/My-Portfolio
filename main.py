@@ -41,15 +41,15 @@ contact = st.Page(
 
 chatbot = st.Page(
     page="views/chatbot.py",
-    title="Chatbot",
+    title="Know more about me",
     icon="🤖"
 )
 
 pg = st.navigation(
     {
         "Info":[home],
-        "Projects":[clustergen, flexchat, psycheck, chatbot],
-        "Contact":[contact]
+        "Projects":[clustergen, flexchat, psycheck],
+        "Contact":[chatbot,contact]
     }
 )
 pg.run()
