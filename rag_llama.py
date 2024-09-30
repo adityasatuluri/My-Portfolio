@@ -55,7 +55,7 @@ def ragLlama(prompt):
         
         llm = ChatGroq(
             groq_api_key="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",
-            model_name='llava-v1.5-7b-4096-preview'
+            model_name='llama3-8b-8192'
         )
         
         rag_template = """
