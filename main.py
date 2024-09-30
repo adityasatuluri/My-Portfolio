@@ -49,7 +49,7 @@ pg = st.navigation(
     {
         "Info":[home],
         "Projects":[clustergen, flexchat, psycheck],
-        "Contact":[chatbot,contact]
+        "Contact":[contact]
     }
 )
 pg.run()
