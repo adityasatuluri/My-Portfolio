@@ -34,22 +34,22 @@ def ragLlama(prompt):
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         docs = text_splitter.split_documents(the_text)
 
-        # Create or load the vector store
-        persist_directory = "RAG"
-        if not os.path.exists(persist_directory):
-            vectorstore = Chroma.from_documents(
-                documents=docs,
-                collection_name="ollama_embeds",
-                embedding=OllamaEmbeddings(model='nomic-embed-text'),
-                persist_directory=persist_directory
-            )
-            vectorstore.persist()
-        else:
-            vectorstore = Chroma(
-                persist_directory=persist_directory,
-                embedding_function=OllamaEmbeddings(model='nomic-embed-text'),
-                collection_name="ollama_embeds"
-            )
+        # # Create or load the vector store
+        # persist_directory = "RAG"
+        # if not os.path.exists(persist_directory):
+        #     vectorstore = Chroma.from_documents(
+        #         documents=docs,
+        #         collection_name="ollama_embeds",
+        #         embedding=OllamaEmbeddings(model='nomic-embed-text'),
+        #         persist_directory=persist_directory
+        #     )
+        #     vectorstore.persist()
+        # else:
+        vectorstore = Chroma(
+            persist_directory="RAG",
+            embedding_function=OllamaEmbeddings(model='nomic-embed-text'),
+            collection_name="ollama_embeds"
+        )
 
         retriever = vectorstore.as_retriever()
         
